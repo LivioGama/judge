@@ -30,6 +30,16 @@ export const TextAnalyzer = () => {
     setIsExpanded(true)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      e.preventDefault()
+      if (text.trim() && !isAnalyzing) {
+        analyze(text)
+        setIsExpanded(false)
+      }
+    }
+  }
+
   return (
     <div className="space-y-4">
       {!hasResult && (
@@ -61,7 +71,8 @@ export const TextAnalyzer = () => {
               id="text-input"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Collez ou tapez le texte..."
+              onKeyDown={handleKeyDown}
+              placeholder="Collez ou tapez le texte... (⌘+Enter pour analyser)"
               className="glow-input w-full h-40 p-3 text-base resize-none text-foreground placeholder:text-foreground/40"
               disabled={isAnalyzing}
             />
@@ -89,7 +100,8 @@ export const TextAnalyzer = () => {
             id="text-input"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Collez ou tapez le texte..."
+            onKeyDown={handleKeyDown}
+            placeholder="Collez ou tapez le texte... (⌘+Enter pour analyser)"
             className="glow-input w-full h-40 p-3 text-base resize-none text-foreground placeholder:text-foreground/40"
             disabled={isAnalyzing}
           />
